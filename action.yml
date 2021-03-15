@@ -1,0 +1,15 @@
+name: 'docker-state cache'
+description: 'Cache /var/lib/docker state to improve workflow execution time'
+author: '@win-t'
+inputs:
+  key:
+    description: 'An explicit key for restoring and saving the cache'
+    required: false
+outputs:
+  cache-hit:
+    description: 'A boolean value to indicate an exact match was found for the primary key'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+  post: 'dist/index.js'
+  post-if: 'success()'
