@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "rm -rf dist && ncc build -m ./src/index.js -o dist"
   },

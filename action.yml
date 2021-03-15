@@ -1,6 +1,5 @@
-name: 'docker-state cache'
+name: 'docker-state'
 description: 'Cache /var/lib/docker state to improve workflow execution time'
-author: '@win-t'
 runs:
   using: 'node12'
   main: 'dist/index.js'
