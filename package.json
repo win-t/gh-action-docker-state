@@ -1,6 +1,7 @@
 {
   "name": "docker-state",
   "version": "1.0.0",
+  "main": "./src/index.js",
   "private": true,
   "scripts": {
     "build": "rm -rf dist && ncc build -m ./src/index.js -o dist"

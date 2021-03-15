@@ -62,18 +62,20 @@ const post = async () => {
 }
 
 const entrypoint = async () => {
-  try {
-    switch (getState('nextEntrypoint')) {
-      case '':
-        saveState('nextEntrypoint', 'post')
-        return await main()
-      case 'post':
-        return await post()
-    }
-  } catch (e) {
-    error(`global error handler: ${e}`)
-    process.exit(1)
+  switch (getState('nextEntrypoint')) {
+    case '':
+      saveState('nextEntrypoint', 'post')
+      return await main()
+    case 'post':
+      return await post()
   }
 }
 
-entrypoint()
+if (require.main == module) {
+  entrypoint().catch(e => {
+    error(`global error handler: ${e}`)
+    process.exit(1)
+  })
+} else {
+  exports.entrypoint = entrypoint
+}
