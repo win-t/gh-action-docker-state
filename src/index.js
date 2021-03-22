@@ -2,7 +2,7 @@
 
 const { spawn } = require('child_process')
 const { once } = require('events')
-const { saveState, getState, error, info } = require('@actions/core')
+const { saveState, getState, getInput, error, info } = require('@actions/core')
 const { saveCache, restoreCache } = require('@actions/cache')
 
 const stateCacheKey = 'anz8sx6yyk'
@@ -32,7 +32,7 @@ const main = async () => {
 
   await sudoShell(`mv /var/lib/docker /var/lib/docker.bak && ( setsid rm -rf /var/lib/docker.bak </dev/null >/dev/null 2>&1 & )`)
 
-  const cacheKey = prefix + (process.env["GITHUB_SHA"] || Math.random())
+  const cacheKey = prefix + getInput('key', { required: true })
   saveState(stateCacheKey, cacheKey)
 
   const cacheHit = await restoreCache(['/var/tmp/docker-state.tar'], cacheKey, [prefix])
@@ -60,22 +60,19 @@ const post = async () => {
   await startDocker()
 }
 
-if (require.main == module) {
-  (async () => {
-    try {
-      switch (getState('entrypointNext')) {
-        case '':
-          saveState('entrypointNext', 'post')
-          return await main()
-        case 'post':
-          return await post()
-      }
-    } catch (e) {
-      error(`global error handler: ${e}`)
-      process.exit(1)
+const entry = async () => {
+  try {
+    switch (getState('entryNext')) {
+      case '':
+        saveState('entryNext', 'post')
+        return await main()
+      case 'post':
+        return await post()
     }
-  })()
-} else {
-  exports.main = main
-  exports.post = post
+  } catch (e) {
+    error(`[global error handler]: ${e}`)
+    process.exit(1)
+  }
 }
+
+entry()

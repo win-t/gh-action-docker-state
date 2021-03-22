@@ -1,5 +1,10 @@
 name: 'docker-state'
 description: 'Cache /var/lib/docker state to improve workflow execution time'
+inputs:
+  key:
+    description: 'Cache key'
+    required: true
+    default: ${{ github.sha }}
 runs:
   using: 'node12'
   main: 'dist/index.js'
