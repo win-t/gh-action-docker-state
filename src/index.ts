@@ -3,6 +3,7 @@ import { once } from 'events'
 import { saveState, getState, getInput, error, info } from '@actions/core'
 import { saveCache, restoreCache } from '@actions/cache'
 
+const stateEntryNext = 'tLw1z4drQd'
 const stateCacheKey = 'anz8sx6yyk'
 const stateExactMatch = 'yctvb1ynp1'
 const prefix = 'd8ubf9owv2-'
@@ -10,7 +11,7 @@ const prefix = 'd8ubf9owv2-'
 const sudoShell = async (script: string) => {
   const shell = spawn('sudo', ['-n', 'sh', '-ceu', script], { stdio: 'inherit' })
   const [code] = await once(shell, 'exit')
-  if (code != 0) { throw new Error(`sudoShell exited with code ${code}`) }
+  if (code !== 0) { throw new Error(`sudoShell exited with code ${code}`) }
 }
 
 const stopDocker = async () => {
@@ -60,9 +61,9 @@ const post = async () => {
 
 const entry = async () => {
   try {
-    switch (getState('entryNext')) {
+    switch (getState(stateEntryNext)) {
       case '':
-        saveState('entryNext', 'post')
+        saveState(stateEntryNext, 'post')
         return await main()
       case 'post':
         return await post()
