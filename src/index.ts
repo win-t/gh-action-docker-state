@@ -1,15 +1,13 @@
-'use strict'
-
-const { spawn } = require('child_process')
-const { once } = require('events')
-const { saveState, getState, getInput, error, info } = require('@actions/core')
-const { saveCache, restoreCache } = require('@actions/cache')
+import { spawn } from 'child_process'
+import { once } from 'events'
+import { saveState, getState, getInput, error, info } from '@actions/core'
+import { saveCache, restoreCache } from '@actions/cache'
 
 const stateCacheKey = 'anz8sx6yyk'
 const stateExactMatch = 'yctvb1ynp1'
 const prefix = 'd8ubf9owv2-'
 
-const sudoShell = async script => {
+const sudoShell = async (script: string) => {
   const shell = spawn('sudo', ['-n', 'sh', '-ceu', script], { stdio: 'inherit' })
   const [code] = await once(shell, 'exit')
   if (code != 0) { throw new Error(`sudoShell exited with code ${code}`) }
