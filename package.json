@@ -8,10 +8,10 @@
     "build": "rm -rf dist && ncc build -m ./src/index.js -o dist"
   },
   "dependencies": {
-    "@actions/cache": "^1.0.6",
-    "@actions/core": "^1.2.6"
+    "@actions/cache": "^1.0.7",
+    "@actions/core": "^1.4.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.27.0"
+    "@vercel/ncc": "^0.28.6"
   }
 }
