@@ -1,7 +1,7 @@
 name: 'docker-state'
 description: 'Cache /var/lib/docker state to improve workflow execution time'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
   post: 'dist/index.js'
   post-if: 'success()'
